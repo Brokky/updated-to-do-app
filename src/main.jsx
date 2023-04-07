@@ -4,12 +4,16 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { AppProvider } from './AppContext';
 import App from './App'
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element:
+      <AppProvider>
+        <App />
+      </AppProvider>,
   },
 
 ]);
