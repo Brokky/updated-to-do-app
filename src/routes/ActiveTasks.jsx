@@ -4,6 +4,7 @@ import useApp from "../AppContext";
 function ActiveTasks() {
   const {
     taskArray,
+    selectedTaskArray,
     handleChangeCheckbox,
     handleDeleteTask,
     handleCompleteTask,
@@ -11,6 +12,8 @@ function ActiveTasks() {
     handleDeleteSelected,
     handleCompleteSelected,
   } = useApp();
+
+  let isNoneSelected = selectedTaskArray.length === 0;
 
   return (
     <div>
@@ -33,9 +36,8 @@ function ActiveTasks() {
         })}
       </ul>
       <button onClick={handleSelectAll}>Select all</button>
-      <button onClick={handleDeleteSelected}>Delete selected</button>
-      {/* TODO: redirect user to CompletedTasks page after complete selected */}
-      <button onClick={handleCompleteSelected}>Complete selected</button>
+      <button onClick={handleDeleteSelected} disabled={isNoneSelected}>Delete selected</button>
+      <button onClick={handleCompleteSelected} disabled={isNoneSelected}>Complete selected</button>
     </div>
   );
 }

@@ -83,19 +83,23 @@ const appReducer = (state, action) => {
 
       const selectedTask = getTask(updatedTaskArray, action.key);
 
-      return state.selectedTaskArray.includes(selectedTask)
-        ? {
-            ...state,
-            taskArray: updatedTaskArray,
-            selectedTaskArray: state.selectedTaskArray.filter(
-              (task) => task.key !== action.key
-            ),
-          }
-        : {
-            ...state,
-            taskArray: updatedTaskArray,
-            selectedTaskArray: [...state.selectedTaskArray, selectedTask],
-          };
+      const taskIndex = state.selectedTaskArray.findIndex(
+        (task) => task.key === selectedTask.key
+      );
+
+      const updatedSelectedTaskArray =
+        taskIndex !== -1
+          ? [
+              ...state.selectedTaskArray.slice(0, taskIndex),
+              ...state.selectedTaskArray.slice(taskIndex + 1),
+            ]
+          : [...state.selectedTaskArray, selectedTask];
+
+      return {
+        ...state,
+        taskArray: updatedTaskArray,
+        selectedTaskArray: updatedSelectedTaskArray,
+      };
 
     case "DELETE_SELECTED":
       return {
